@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace AillieoUtils.GeometriesSample
+namespace AillieoUtils.Geometries.Sample
 {
     public static class VectorExt
     {

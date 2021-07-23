@@ -230,13 +230,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 849280567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71fcafab758444cafb681ac2d8abe249, type: 3}
+  m_Script: {fileID: 11500000, guid: 988cb61e3a4a99b43ad489b8ee452735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: {x: -10, y: 0}
-  p0: {x: 8, y: 0}
-  p1: {x: 30, y: 0}
-  p2: {x: 0, y: 40}
+  points:
+  - {x: 3.6727505, y: 15.935764}
+  - {x: 9.387102, y: -10.396782}
+  - {x: 15.651774, y: 15.772109}
+  - {x: -18.235535, y: -2.5207348}
+  - {x: 7.1403975, y: 7.9869795}
+  - {x: -13.100681, y: 5.519323}
+  - {x: 15.516247, y: -9.548103}
+  - {x: 3.44199, y: -17.696003}
+  - {x: -6.5785675, y: -16.961903}
+  - {x: 18.935242, y: -12.565617}
 --- !u!4 &849280569
 Transform:
   m_ObjectHideFlags: 0

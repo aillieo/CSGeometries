@@ -1,9 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
-using AillieoUtils.Geometries;
 using UnityEngine;
 
-namespace AillieoUtils.GeometriesSample
+namespace AillieoUtils.Geometries.Sample
 {
     public class Relation2DPointTriangle : MonoBehaviour
     {

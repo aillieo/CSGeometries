@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -26,6 +26,11 @@ namespace AillieoUtils.Geometries
             // | y0   y1   y2 |
             float determine = p0.x * p1.y + p2.x * p0.y + p1.x * p2.y - p0.x * p2.y - p2.x * p1.y - p1.x * p0.y;
             return Math.Sign(determine);
+        }
+
+        internal static int Clockwise(Vector2 p0, Vector2 p1, Vector2 p2)
+        {
+            return Clockwise(ref p0, ref p1, ref p2);
         }
     }
 }

@@ -32,5 +32,24 @@ namespace AillieoUtils.Geometries
         {
             return Clockwise(ref p0, ref p1, ref p2);
         }
+
+        internal static float Determination3x3(ref float a00, ref float a01, ref float a02, ref float a10, ref float a11, ref float a12, ref float a20, ref float a21, ref float a22)
+        {
+            // | a00   a01   a02 |
+            // | a10   a11   a12 |
+            // | a20   a21   a22 |
+
+            return a00 * a11 * a22
+                + a01 * a12 * a20
+                + a02 * a10 * a21
+                - a02 * a11 * a20
+                - a01 * a10 * a22
+                - a00 * a12 * a21;
+        }
+
+        internal static float Determination3x3(float a00, float a01, float a02, float a10, float a11, float a12, float a20, float a21, float a22)
+        {
+            return Determination3x3(ref a00, ref a01, ref a02, ref a10, ref a11, ref a12, ref a20, ref a21, ref a22);
+        }
     }
 }

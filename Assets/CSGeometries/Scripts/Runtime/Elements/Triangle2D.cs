@@ -44,7 +44,7 @@ namespace AillieoUtils.Geometries
                     case 2:
                         return p2;
                 }
-                throw new Exception();
+                throw new ArgumentOutOfRangeException();
             }
 
             set
@@ -61,7 +61,7 @@ namespace AillieoUtils.Geometries
                         p2 = value;
                         break;
                 }
-                throw new Exception();
+                throw new ArgumentOutOfRangeException();
             }
         }
 

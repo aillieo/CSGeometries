@@ -4,39 +4,34 @@ using UnityEngine;
 
 namespace AillieoUtils.Geometries.Sample
 {
-    public class Relation2DPointTriangle : MonoBehaviour
+    public class Relation2DPointTriangle : SampleSceneBase
     {
-        public Vector2 point;
+        public Transform point;
 
-        public Vector2 p0;
-        public Vector2 p1;
-        public Vector2 p2;
+        public Transform p0;
+        public Transform p1;
+        public Transform p2;
 
         void OnDrawGizmos()
         {
-            Gizmos.DrawLine(p0.ToVector3(), p1.ToVector3());
-            Gizmos.DrawLine(p1.ToVector3(), p2.ToVector3());
-            Gizmos.DrawLine(p2.ToVector3(), p0.ToVector3());
+            GeomDrawer2D.DrawPolygon(Color.white, p0.ToVector2(), p1.ToVector2(), p2.ToVector2());
 
-            Relation r = Relations2D.PointTriangle(point, p0, p1, p2);
-            Color backup = Gizmos.color;
+            Relation r = Relations2D.PointTriangle(point.ToVector2(), p0.ToVector2(), p1.ToVector2(), p2.ToVector2());
+            Color color = Color.white;
             switch (r)
             {
                 case Relation.Coincidence:
-                    Gizmos.color = Color.blue;
+                    color = Color.blue;
                     break;
                 case Relation.Internal:
-                    Gizmos.color = Color.red;
+                    color = Color.red;
                     break;
                 case Relation.External:
-                    Gizmos.color = Color.green;
+                    color = Color.green;
                     break;
             }
 
-            Gizmos.DrawSphere(point.ToVector3(), 2f);
-
-            Gizmos.color = backup;
+            GeomDrawer2D.DrawPoint(color, point.ToVector2());
         }
     }
-
 }

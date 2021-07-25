@@ -1,49 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace AillieoUtils.Geometries.Sample
 {
     [ExecuteAlways]
-    public class ConvexHull2DSample : MonoBehaviour
+    public class ConvexHull2DSample : SampleSceneBase
     {
-        public Vector2[] points;
-
-        private void OnEnable()
-        {
-            if (points == null || points.Length == 0)
-            {
-                int count = 10;
-                points = new Vector2[count];
-                for (int i = 0; i < count; ++i)
-                {
-                    points[i] = new Vector2(Random.Range(-20f, 20f), Random.Range(-20f, 20f));
-                }
-            }
-        }
+        public Transform[] points;
 
         private void OnDrawGizmos()
         {
-            Color backup = Gizmos.color;
-
-            Gizmos.color = Color.white;
-
-            Polygon polygon = ConvexHull2D.ConvexHull(points);
+            Polygon polygon = ConvexHull2D.ConvexHull(points.Select(t => t.ToVector2()));
             for (int i = 0, count = polygon.verts.Count; i < count; ++i)
             {
-                Gizmos.DrawLine(
-                    polygon.verts[i].ToVector3(),
-                    polygon.verts[(i + 1) % count].ToVector3());
+                GeomDrawer2D.DrawPolygon(
+                    Color.white,
+                    polygon.verts);
             }
-
-            Gizmos.color = Color.red;
 
             foreach (var p in points)
             {
-                Gizmos.DrawSphere(p.ToVector3(), 1f);
+                GeomDrawer2D.DrawPoint(Color.red, p.ToVector2());
             }
-
-            Gizmos.color = backup;
         }
     }
 

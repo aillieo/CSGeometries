@@ -4,28 +4,23 @@ using UnityEngine;
 
 namespace AillieoUtils.Geometries.Sample
 {
-    public class Intersections2DLineCircle : MonoBehaviour
+    public class Intersections2DLineCircle : SampleSceneBase
     {
-        public Vector2 p0;
-        public Vector2 p1;
+        public Transform p0;
+        public Transform p1;
 
-        public Vector2 center;
+        public Transform center;
         public float radius;
 
         void OnDrawGizmos()
         {
-            Gizmos.DrawLine(p0.ToVector3(), p1.ToVector3());
-            Gizmos.DrawWireSphere(center.ToVector3(), radius);
+            GeomDrawer2D.DrawCircle(Color.gray, center.ToVector2(), radius);
+            GeomDrawer2D.DrawLine(Color.white, p0.ToVector2(), p1.ToVector2());
 
-            Color backup = Gizmos.color;
-            Gizmos.color = Color.red;
-
-            foreach (var p in Intersections2D.LineCircle(p0, p1, center, radius))
+            foreach (var p in Intersections2D.LineCircle(p0.ToVector2(), p1.ToVector2(), center.ToVector2(), radius))
             {
-                Gizmos.DrawSphere(p.ToVector3(), 2f);
+                GeomDrawer2D.DrawPoint(Color.red, p);
             }
-
-            Gizmos.color = backup;
         }
     }
 

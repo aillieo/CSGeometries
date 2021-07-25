@@ -20,8 +20,8 @@ namespace AillieoUtils.Geometries.Sample
 
         public enum MoveMode
         {
-            InCircle,
             InRect,
+            InCircle,
         }
 
         private Vector3 target;

@@ -4,28 +4,23 @@ using UnityEngine;
 
 namespace AillieoUtils.Geometries.Sample
 {
-    public class Intersections2DLineLine : MonoBehaviour
+    public class Intersections2DLineLine : SampleSceneBase
     {
-        public Vector2 p0;
-        public Vector2 p1;
+        public Transform p0;
+        public Transform p1;
 
-        public Vector2 q0;
-        public Vector2 q1;
+        public Transform q0;
+        public Transform q1;
 
         void OnDrawGizmos()
         {
-            Gizmos.DrawLine(p0.ToVector3(), p1.ToVector3());
-            Gizmos.DrawLine(q0.ToVector3(), q1.ToVector3());
+            GeomDrawer2D.DrawLine(Color.white, p0.ToVector2(), p1.ToVector2());
+            GeomDrawer2D.DrawLine(Color.white, q0.ToVector2(), q1.ToVector2());
 
-            Color backup = Gizmos.color;
-            Gizmos.color = Color.red;
-
-            foreach (var p in Intersections2D.LineLine(p0, p1, q0, q1))
+            foreach (var p in Intersections2D.LineLine(p0.ToVector2(), p1.ToVector2(), q0.ToVector2(), q1.ToVector2()))
             {
-                Gizmos.DrawSphere(p.ToVector3(), 2f);
+                GeomDrawer2D.DrawPoint(Color.red, p);
             }
-
-            Gizmos.color = backup;
         }
     }
 

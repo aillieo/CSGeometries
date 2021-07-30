@@ -47,10 +47,15 @@ namespace AillieoUtils.Geometries.Sample
 
         private static void DrawWideLine(Vector2 p0, Vector2 p1)
         {
+            DrawWideLine(p0, p1, lineWidth);
+        }
+
+        private static void DrawWideLine(Vector2 p0, Vector2 p1, float width)
+        {
             Vector2 dir = p1 - p0;
             Vector2 per = Vector2.Perpendicular(dir);
             per.Normalize();
-            float halfLineWidth = lineWidth / 2;
+            float halfLineWidth = width / 2;
             Vector2 q0 = p0 + per * halfLineWidth;
             Vector2 q1 = p1 + per * halfLineWidth;
             Vector2 q2 = p1 - per * halfLineWidth;
@@ -86,6 +91,58 @@ namespace AillieoUtils.Geometries.Sample
             Color back = Handles.color;
             Handles.color = color;
             Handles.DrawSolidDisc(center.ToVector3(), Vector3.up, radius);
+            Handles.color = back;
+        }
+
+        private static void DrawHalfEdge (Vector2 pFrom, Vector2 pTo, bool counterclockwise)
+        {
+            Vector2 dir = pTo - pFrom;
+            float shrink = 0.05f;
+            pTo = pTo - shrink * dir;
+            pFrom = pFrom + shrink * dir;
+            Vector2 per = Vector2.Perpendicular(dir);
+            per.Normalize();
+            if (!counterclockwise)
+            {
+                per = -per;
+            }
+
+            float edgeWidth = lineWidth * 0.5f;
+            float offset = lineWidth * 0.5f;
+            DrawWideLine(pFrom + per * offset, pTo + per * offset, edgeWidth);
+
+            Vector2 headDir = -dir;
+            if (counterclockwise)
+            {
+                headDir = headDir.Rotate(-30f);
+            }
+            else
+            {
+                headDir = headDir.Rotate(30f);
+            }
+
+            headDir.Normalize();
+            float headSize = lineWidth * 3f;
+            Vector2 pHead0 = pTo + per * offset;
+            Vector2 pHead1 = pHead0 + headDir * headSize;
+            DrawWideLine(pHead0, pHead1, edgeWidth);
+        }
+
+        private static void DrawDCEL(DoublyConnectedEdgeList2D decl)
+        {
+            foreach(var e in decl.edges)
+            {
+                Vector2 p0 = e.origin.position;
+                Vector2 p1 = e.next.origin.position;
+                DrawHalfEdge(p0, p1, true);
+            }
+        }
+
+        public static void DrawDCEL(Color color, DoublyConnectedEdgeList2D decl)
+        {
+            Color back = Handles.color;
+            Handles.color = color;
+            DrawDCEL(decl);
             Handles.color = back;
         }
     }

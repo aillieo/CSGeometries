@@ -26,5 +26,16 @@ namespace AillieoUtils.Geometries.Sample
         {
             return transform.ToVector3().ToVector2();
         }
+
+        public static Vector2 Rotate(this Vector2 vector2, float angle)
+        {
+            // [[ cos -sin ]
+            //  [ sin  cos ]]
+
+            angle = angle * Mathf.Deg2Rad;
+            return new Vector2(
+                    (vector2.x * Mathf.Cos(angle)) - (vector2.y * Mathf.Sin(angle)),
+                    (vector2.x * Mathf.Sin(angle)) + (vector2.y * Mathf.Cos(angle)));
+        }
     }
 }

@@ -129,6 +129,25 @@ namespace AillieoUtils.Geometries
                 return Relation.Coincidence;
             }
         }
+
+        public static Relation PointSegment(Vector2 point, Vector2 p0, Vector2 p1)
+        {
+            if (point == p0 || point == p1)
+            {
+                return Relation.Coincidence;
+            }
+
+            if (Vector2.Dot(p0 - point, p1 - point) != 0)
+            {
+                return Relation.External;
+            }
+
+            if (InRange(ref point, ref p0, ref p1))
+            {
+                return Relation.Internal;
+            }
+
+            return Relation.External;
+        }
     }
 }
-

@@ -9,7 +9,7 @@ namespace AillieoUtils.Geometries.Sample
 {
     public static class GeomDrawer2D
     {
-        public static float pointSize = 0.15f;
+        public static float pointSize = 0.6f;
         public static float lineWidth = 0.3f;
 
         public static void DrawPoint(Color color, Vector2 position)
@@ -33,7 +33,8 @@ namespace AillieoUtils.Geometries.Sample
 
         private static void DrawWorldPoint(Vector3 worldPosition)
         {
-            float worldSize = HandleUtility.GetHandleSize(worldPosition) * pointSize;
+            //float worldSize = HandleUtility.GetHandleSize(worldPosition) * pointSize;
+            float worldSize = pointSize;
             Handles.DrawSolidDisc(worldPosition, Vector3.up, worldSize);
         }
 

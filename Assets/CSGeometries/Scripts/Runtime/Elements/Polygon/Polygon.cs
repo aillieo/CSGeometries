@@ -9,5 +9,9 @@ namespace AillieoUtils.Geometries
         public readonly List<Vector2> verts = new List<Vector2>();
 
         public abstract bool Validate();
+
+        public abstract bool Clockwise();
+
+        public abstract float Area();
     }
 }

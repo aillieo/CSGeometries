@@ -149,5 +149,33 @@ namespace AillieoUtils.Geometries
 
             return Relation.External;
         }
+
+        public static Relation PointLine(Vector2 point, Vector2 p0, Vector2 p1)
+        {
+            if (Vector2.Dot(p0 - point, p1 - point) == 0)
+            {
+                return Relation.Coincidence;
+            }
+            else
+            {
+                return Relation.External;
+            }
+        }
+
+        public static bool PointInsideTriangle(ref Vector2 point, ref Vector2 p0, ref Vector2 p1, ref Vector2 p2)
+        {
+            return PointTriangle(point, p0, p1, p2) == AillieoUtils.Geometries.Relation.Internal;
+
+            // todo
+            // 专用的判断是否在内部的方法 更快速
+            // 提前判断出external后立即返回
+        }
+
+        public static bool PointsCollinear(ref Vector2 p0, ref Vector2 p1, ref Vector2 p2)
+        {
+            // todo
+            // 三点共线快速判断
+            return PointLine(p0, p1, p2) == Relation.Coincidence;
+        }
     }
 }

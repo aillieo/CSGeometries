@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace AillieoUtils.Geometries
 {
     public class PolygonComposite : Polygon
     {
         public readonly List<Polygon> holes = new List<Polygon>();
+
+        public override float Area()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool Clockwise()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override bool Validate()
         {

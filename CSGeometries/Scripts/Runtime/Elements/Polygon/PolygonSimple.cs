@@ -6,9 +6,27 @@ namespace AillieoUtils.Geometries
 {
     public class PolygonSimple : Polygon
     {
+        // https://en.wikipedia.org/wiki/Shoelace_formula#The_polygon_area_formulas
         public override float Area()
         {
-            throw new System.NotImplementedException();
+            float sum = 0;
+            Vector2 last = default;
+            bool first = true;
+            foreach (var point in verts)
+            {
+                if (first)
+                {
+                    last = point;
+                    first = false;
+                    continue;
+                }
+
+                sum += (last.x * point.y) - (point.x * last.y);
+
+                last = point;
+            }
+
+            return 0.5f * sum;
         }
 
         public override bool Clockwise()
@@ -18,7 +36,7 @@ namespace AillieoUtils.Geometries
 
         public override bool Validate()
         {
-            if (verts.Count <= 3)
+            if (verts.Count < 3)
             {
                 Debug.LogError("not enough verts");
                 return false;

@@ -20,7 +20,7 @@ namespace AillieoUtils.Geometries
 
         public override bool Validate()
         {
-            if (holes.Any(h => !Validate()))
+            if (holes.Any(h => !h.Validate()))
             {
                 return false;
             }

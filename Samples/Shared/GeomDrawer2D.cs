@@ -20,6 +20,14 @@ namespace AillieoUtils.Geometries.Sample
             Handles.color = back;
         }
 
+        public static void DrawSquarePoint(Color color, Vector2 position)
+        {
+            Color back = Handles.color;
+            Handles.color = color;
+            DrawWorldSquarePoint(position.ToVector3());
+            Handles.color = back;
+        }
+
         public static void DrawPoints(Color color, IEnumerable<Vector2> points)
         {
             Color back = Handles.color;
@@ -36,6 +44,24 @@ namespace AillieoUtils.Geometries.Sample
             //float worldSize = HandleUtility.GetHandleSize(worldPosition) * pointSize;
             float worldSize = pointSize;
             Handles.DrawSolidDisc(worldPosition, Vector3.up, worldSize);
+        }
+
+        private static void DrawWorldSquarePoint(Vector3 worldPosition)
+        {
+            //float worldSize = HandleUtility.GetHandleSize(worldPosition) * pointSize;
+            float worldSize = pointSize;
+            Vector2 center = worldPosition.ToVector2();
+            Vector2 lb = center - worldSize * 0.5f * Vector2.one;
+            Vector2 q0 = lb;
+            Vector2 q1 = lb + worldSize * Vector2.right;
+            Vector2 q2 = lb + worldSize * Vector2.one;
+            Vector2 q3 = lb + worldSize * Vector2.up;
+            Handles.DrawSolidRectangleWithOutline(new Vector3[] {
+                q0.ToVector3(),
+                q1.ToVector3(),
+                q2.ToVector3(),
+                q3.ToVector3(),
+            }, Handles.color, Handles.color);
         }
 
         public static void DrawLine(Color color, Vector2 p0, Vector2 p1)

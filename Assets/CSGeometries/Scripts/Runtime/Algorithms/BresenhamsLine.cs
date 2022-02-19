@@ -8,12 +8,12 @@ namespace AillieoUtils.Geometries
 {
     public static class BresenhamsLine
     {
-        public static IEnumerable<Vector2Int> Intersect(Vector2Int inPointGlobal, Vector2Int outPointGlobal)
+        public static IEnumerable<Vector2Int> Intersect(Vector2Int inPoint, Vector2Int outPoint)
         {
-            int inX = inPointGlobal.x;
-            int inY = inPointGlobal.y;
-            int outX = outPointGlobal.x;
-            int outY = outPointGlobal.y;
+            int inX = inPoint.x;
+            int inY = inPoint.y;
+            int outX = outPoint.x;
+            int outY = outPoint.y;
 
             //Debug.LogError($"inX={inX} inY={inY} outX={outX} outY={outY}");
 

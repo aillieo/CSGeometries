@@ -177,5 +177,15 @@ namespace AillieoUtils.Geometries
             // 三点共线快速判断
             return PointLine(p0, p1, p2) == Relation.Coincidence;
         }
+
+        public static Relation SegmentSegment(ref Vector2 p0, ref Vector2 p1, ref Vector2 p2, ref Vector2 p3)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Relation RaySegment(ref Vector2 origin, ref Vector2 direction, ref Vector2 p0, ref Vector2 p1)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

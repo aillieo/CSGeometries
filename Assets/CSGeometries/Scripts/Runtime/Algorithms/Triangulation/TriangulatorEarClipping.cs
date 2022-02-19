@@ -25,63 +25,76 @@ namespace AillieoUtils.Geometries
             // https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf
             // https://www.flipcode.com/archives/Efficient_Polygon_Triangulation.shtml
 
-            context.verts = GetAllPolygonVerts(context.root);
+            Queue<Polygon> polygonQueue = new Queue<Polygon>();
             List<int> triangles = context.triangles;
+            context.verts = new List<Vector2>();
 
-            int n = context.verts.Count;
+            polygonQueue.Enqueue(context.root);
 
-            List<int> V = new List<int>(n);
-            for (int v = 0; v < n; v++)
+            while (polygonQueue.Count > 0)
             {
-                V.Add(v);
-            }
+                Polygon first = polygonQueue.Dequeue();
 
-            int count = 2 * V.Count;
-            for (int v = V.Count - 1; V.Count > 2;)
-            {
-                if (count-- <= 0)
+                List<Vector2> curPolygonVerts = GetCurPolygonVerts(first, polygonQueue);
+
+                int n = curPolygonVerts.Count;
+                int vn = context.verts.Count;
+
+                List<int> V = new List<int>(n);
+                for (int v = 0; v < n; v++)
                 {
-                    // 没有可切的了？
-                    throw new Exception("invalid polygon: can not find an ear to clip");
+                    V.Add(v);
                 }
 
-                // 后移 u-v-w 确定一个三角形 超出重置为 0
-                int u = v;
-                if (u >= V.Count)
+                int count = 2 * V.Count;
+                for (int v = V.Count - 1; V.Count > 2;)
                 {
-                    u = 0;
+                    if (count-- <= 0)
+                    {
+                        // 没有可切的了？
+                        throw new Exception("invalid polygon: can not find an ear to clip");
+                    }
+
+                    // 后移 u-v-w 确定一个三角形 超出重置为 0
+                    int u = v;
+                    if (u >= V.Count)
+                    {
+                        u = 0;
+                    }
+
+                    v = u + 1;
+                    if (v >= V.Count)
+                    {
+                        v = 0;
+                    }
+
+                    int w = v + 1;
+                    if (w >= V.Count)
+                    {
+                        w = 0;
+                    }
+
+                    if (Snip(curPolygonVerts, u, v, w, V))
+                    {
+                        // 切耳： u-v-w 确定的三角形
+                        triangles.Add(vn + V[u]);
+                        triangles.Add(vn + V[v]);
+                        triangles.Add(vn + V[w]);
+
+                        // 移除v 其余前移
+                        V.RemoveAt(v);
+
+                        count = 2 * V.Count;
+                    }
                 }
 
-                v = u + 1;
-                if (v >= V.Count)
-                {
-                    v = 0;
-                }
-
-                int w = v + 1;
-                if (w >= V.Count)
-                {
-                    w = 0;
-                }
-
-                if (Snip(context.verts, u, v, w, V))
-                {
-                    // 切耳： u-v-w 确定的三角形
-                    triangles.Add(V[u]);
-                    triangles.Add(V[v]);
-                    triangles.Add(V[w]);
-
-                    // 移除v 其余前移
-                    V.RemoveAt(v);
-
-                    count = 2 * V.Count;
-                }
+                context.verts.AddRange(curPolygonVerts);
             }
 
             context.success = true;
         }
 
-        private static List<Vector2> GetAllPolygonVerts(Polygon hull)
+        private static List<Vector2> GetCurPolygonVerts(Polygon hull, Queue<Polygon> queueToFill)
         {
             List<Vector2> verts = new List<Vector2>();
             verts.AddRange(hull.verts);
@@ -99,7 +112,15 @@ namespace AillieoUtils.Geometries
 
                 foreach (var hole in HS)
                 {
-                    RemoveHole(verts, composite.holes[hole.Item1]);
+                    Polygon polygonHole = composite.holes[hole.Item1];
+                    if (polygonHole is PolygonComposite holeComposite)
+                    {
+                        foreach (var innerPolygon in holeComposite.holes)
+                        {
+                            queueToFill.Enqueue(innerPolygon);
+                        }
+                    }
+                    RemoveHole(verts, polygonHole);
                 }
             }
 

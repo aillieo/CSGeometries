@@ -36,14 +36,88 @@ namespace AillieoUtils.Geometries
             return false;
         }
 
-        public static bool SwapEdge(DoublyConnectedEdgeList2D dcel, Vector2 edgePosition)
+        public static bool FlipEdge(DoublyConnectedEdgeList2D dcel, Vector2 edgePosition, float tolerance)
         {
-            throw new NotImplementedException();
+            DCELHalfEdge closest = default;
+            float distMin = float.PositiveInfinity;
+            foreach(var e in dcel.edges)
+            {
+                if (e.pair == null)
+                {
+                    continue;
+                }
+
+                float newDist = Distances2D.PointLine(edgePosition, e.origin.position, e.pair.origin.position);
+                if (newDist > tolerance)
+                {
+                    continue;
+                }
+
+                if (newDist < distMin)
+                {
+                    distMin = newDist;
+                    closest = e;
+                }
+            }
+
+            if (closest == null)
+            {
+                return false;
+            }
+
+            return InternalFlipEdge(dcel, closest);
         }
 
-        internal static bool InternalSwapEdge(DoublyConnectedEdgeList2D dcel, DCELHalfEdge edge)
+        internal static bool InternalFlipEdge(DoublyConnectedEdgeList2D dcel, DCELHalfEdge edge)
         {
-            throw new NotImplementedException();
+            if (edge.pair == null)
+            {
+                return false;
+            }
+
+            DCELHalfEdge edge0 = edge;
+            DCELHalfEdge edge1 = edge.pair;
+            DCELHalfEdge edge2 = edge0.next;
+            DCELHalfEdge edge3 = edge2.next;
+            DCELHalfEdge edge4 = edge1.next;
+            DCELHalfEdge edge5 = edge4.next;
+
+            DCELFace face0 = edge0.incidentFace;
+            DCELFace face1 = edge1.incidentFace;
+
+            DCELVertex vert0 = edge0.origin;
+            DCELVertex vert1 = edge1.origin;
+            DCELVertex vert2 = edge2.origin;
+            DCELVertex vert3 = edge3.origin;
+            DCELVertex vert4 = edge4.origin;
+            DCELVertex vert5 = edge5.origin;
+
+            // 记录完毕 开始flip
+
+            vert0.position = vert3.position;
+            vert1.position = vert5.position;
+
+            face0.edge = edge0;
+            face1.edge = edge1;
+
+            edge0.next = edge5;
+            edge1.next = edge3;
+            edge2.next = edge0;
+            edge3.next = edge4;
+            edge4.next = edge1;
+            edge5.next = edge2;
+
+            edge0.previous = edge2;
+            edge1.previous = edge4;
+            edge2.previous = edge5;
+            edge3.previous = edge1;
+            edge4.previous = edge3;
+            edge5.previous = edge0;
+
+            edge3.incidentFace = face1;
+            edge5.incidentFace = face0;
+
+            return true;
         }
 
         internal static bool InternalInsert(DoublyConnectedEdgeList2D dcel, Vector2 vert, DCELFace face)

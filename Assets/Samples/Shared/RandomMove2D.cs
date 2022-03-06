@@ -96,6 +96,7 @@ namespace AillieoUtils.Geometries.Sample
 #if UNITY_EDITOR
 
     [CustomEditor(typeof(RandomMove2D))]
+    [CanEditMultipleObjects]
     public class RandomMove2DEditor : Editor
     {
         public override void OnInspectorGUI()
@@ -137,15 +138,26 @@ namespace AillieoUtils.Geometries.Sample
 
             EditorGUILayout.EndVertical();
 
-            if (GUILayout.Button("Set Curret As Center"))
+            if (GUILayout.Button("Set Current As Center"))
             {
-                SetCurretAsCenter();
+                if (serializedObject.isEditingMultipleObjects)
+                {
+                    foreach (var t in targets)
+                    {
+                        SerializedObject so = new SerializedObject(t);
+                        SetCurretAsCenter(t, so);
+                        so.ApplyModifiedProperties();
+                    }
+                }
+                else
+                {
+                    SetCurretAsCenter(target, serializedObject);
+                    serializedObject.ApplyModifiedProperties();
+                }
             }
-
-            serializedObject.ApplyModifiedProperties();
         }
 
-        private void SetCurretAsCenter()
+        private static void SetCurretAsCenter(Object target, SerializedObject serializedObject)
         {
             RandomMove2D randomMove2D = target as RandomMove2D;
             Vector2 position2d = randomMove2D.transform.localPosition.ToVector2();

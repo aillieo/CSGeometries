@@ -44,6 +44,12 @@ namespace AillieoUtils.Geometries
                 case TriangulationAlgorithm.EarClipping:
                     TriangulatorEarClipping.Triangulate(context);
                     break;
+                case TriangulationAlgorithm.Delaunay:
+                    TriangulatorDelaunay.Triangulate(context);
+                    break;
+                case TriangulationAlgorithm.ConstrainedDelaunay:
+                    TriangulatorConstrainedDelaunay.Triangulate(context);
+                    break;
 
                 default:
                     throw new NotImplementedException();

@@ -31,6 +31,10 @@ namespace AillieoUtils.Geometries
         public readonly List<DCELHalfEdge> edges = new List<DCELHalfEdge>();
         public readonly List<DCELVertex> vertices = new List<DCELVertex>();
 
+        public DoublyConnectedEdgeList2D()
+        {
+        }
+
         public DoublyConnectedEdgeList2D(Triangle2D triangle)
         {
             DCELFace face = new DCELFace();

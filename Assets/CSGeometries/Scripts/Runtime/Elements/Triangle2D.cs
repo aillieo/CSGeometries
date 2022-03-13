@@ -11,6 +11,15 @@ namespace AillieoUtils.Geometries
         public Vector2 p1;
         public Vector2 p2;
 
+        public Triangle2D() { }
+
+        public Triangle2D(Vector2 p0, Vector2 p1, Vector2 p2)
+        {
+            this.p0 = p0;
+            this.p1 = p1;
+            this.p2 = p2;
+        }
+
         public IEnumerable<Vector2> Points
         {
             get

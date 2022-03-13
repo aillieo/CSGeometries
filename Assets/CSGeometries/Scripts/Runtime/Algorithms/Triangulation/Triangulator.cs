@@ -25,6 +25,7 @@ namespace AillieoUtils.Geometries
                 context.success = false;
                 context.triangles.Clear();
                 UnityEngine.Debug.LogError(e);
+                //throw;
             }
 
             if (context.success)

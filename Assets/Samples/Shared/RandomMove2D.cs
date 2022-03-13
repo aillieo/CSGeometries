@@ -138,6 +138,8 @@ namespace AillieoUtils.Geometries.Sample
 
             EditorGUILayout.EndVertical();
 
+            serializedObject.ApplyModifiedProperties();
+
             if (GUILayout.Button("Set Current As Center"))
             {
                 if (serializedObject.isEditingMultipleObjects)

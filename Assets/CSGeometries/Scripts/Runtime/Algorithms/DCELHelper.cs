@@ -184,6 +184,10 @@ namespace AillieoUtils.Geometries
             edge1p.origin = fv1d;
             edge2p.origin = fv2d;
 
+            face.edge = edge2;
+            face0.edge = fe0;
+            face1.edge = fe1;
+
             fe0.incidentFace = face0;
             fe1.incidentFace = face1;
             edge0.incidentFace = face0;
